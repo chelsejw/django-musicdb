@@ -51,6 +51,9 @@ class Artist(models.Model):
     def __str__(self):
         return self.name
 
+    def get_tracks(self):
+        return Track.objects.filter(artist_id=self.id)
+
 class ArtistFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Artist
@@ -61,6 +64,7 @@ class TagCategory(models.Model):
 
     def __str__(self):
         return self.description
+
 
 class Tag(models.Model):
     # BPM, instruments, vocals, mood, energy, etc
@@ -73,7 +77,6 @@ class Tag(models.Model):
 
     class Meta:
         ordering = ['category']
-
 
 class Track(models.Model):
     artists = models.ManyToManyField(Artist)
@@ -98,7 +101,7 @@ class Track(models.Model):
     class Meta:
         ordering = ['-created']
 
-
+        
 class TrackFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Track   

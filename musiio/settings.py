@@ -104,7 +104,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
-
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 1
+}
 FAKER_LOCALE = None     # settings.LANGUAGE_CODE is loaded
 FAKER_PROVIDERS = None  # faker.DEFAULT_PROVIDERS is loaded (all)
 
