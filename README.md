@@ -12,8 +12,8 @@ Attempt to design a music app system
 
 # Admin Credentials
 
-Username: chelseaee
-Password: music4lyfe
+- Username: chelseaee
+- Password: music4lyfe
 
 # Available API routes
 
@@ -29,7 +29,6 @@ Password: music4lyfe
 
 ````
 
-
 # Design Constraints / Assumptions
 
 Most frequently used search function = search tracks by tags-> way to index this?
@@ -44,11 +43,13 @@ Also tracks from user’s organisation’s catalog
 - Can be up to hours (ambient background music)
 - Have many tags
 - Should be able to sort by date of release (so day and month need to be taken into account)
-- Users would want to be able to see tracks by artist, duration, tags
+- Users would want to sorttracks by artist, duration, tags
 - Tracks do not belong to any organisation
-PLAYLISTS
+
+
+## PLAYLISTS
 - Can be empty
-- Can only contain tracks from the user’s organisation’s catalog
+- Should only contain tracks from the user’s organisation’s catalog
 
 ## Users
 - User can only add tracks to their playlists from their organisation’s catalog
@@ -70,3 +71,7 @@ PLAYLISTS
 - Regretfully, I wasn't able to fully implement all constraints (e.g. users should be restricted to adding tracks only from their organisation's catalog)
 - Probably shouldn't have used Django as I am still unfamiliar with it -- had difficulty with doing RESTful API routes, ended up using query params
 - Should have used django user auth models, could have been easier to restrict access to catalogs
+
+
+
+![image](erd.png)
