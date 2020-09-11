@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'django_seed',
     'database'
 ]
 
@@ -105,6 +104,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
+
+FAKER_LOCALE = None     # settings.LANGUAGE_CODE is loaded
+FAKER_PROVIDERS = None  # faker.DEFAULT_PROVIDERS is loaded (all)
 
 LANGUAGE_CODE = 'en-us'
 

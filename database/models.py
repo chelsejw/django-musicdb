@@ -1,8 +1,10 @@
 from django.db import models
 from datetime import timedelta
-
+import factory
+import factory.django
 # Create your models here.
 
+import random
 
 class Organisation(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -14,6 +16,11 @@ class Organisation(models.Model):
     class Meta:
         ordering = ['-created']
 
+
+class OrganisationFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Organisation
+    title = factory.Faker('company')
 
 class User(models.Model):
     organisation = models.ForeignKey(Organisation, on_delete=models.CASCADE)
@@ -29,6 +36,14 @@ class User(models.Model):
         ordering = ['-created']
 
 
+class UserFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = User
+    username = factory.Sequence(lambda n: 'user{}'.format(n))
+    organisation = factory.LazyFunction(lambda: Organisation.objects.get(id=random.randint(1, Organisation.objects.first().id)))
+    role = factory.LazyFunction(lambda: random.choice(['admin', 'standard']))
+
+
 class Artist(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=50, unique=True)
@@ -36,6 +51,10 @@ class Artist(models.Model):
     def __str__(self):
         return self.name
 
+class ArtistFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Artist
+    name = factory.Faker('name')
 
 class TagCategory(models.Model):
     description = models.CharField(max_length=20, unique=True)
