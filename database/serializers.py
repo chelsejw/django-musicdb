@@ -41,3 +41,12 @@ class TrackSerializer(serializers.HyperlinkedModelSerializer):
         model = Track
         fields = ['title', 'created', 'updated',
                   'duration', 'released', 'artists', 'tags']
+
+class CatalogSerializer(serializers.HyperlinkedModelSerializer):
+
+    organisation = OrganisationSerializer(read_only=True)
+    tracks = TrackSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Catalog
+        fields = ['organisation', 'tracks']

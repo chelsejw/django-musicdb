@@ -4,7 +4,7 @@ from django.shortcuts import render
 from .models import Organisation, TagCategory, User, Playlist, Tag, Track, TrackTag, Artist, Catalog
 from rest_framework import viewsets
 from rest_framework import permissions
-from .serializers import OrganisationSerializer, UserSerializer, TrackSerializer, ArtistSerializer, TagSerializer
+from .serializers import OrganisationSerializer, UserSerializer, TrackSerializer, ArtistSerializer, TagSerializer, CatalogSerializer
 
 
 class OrganisationViewSet(viewsets.ModelViewSet):
@@ -53,3 +53,7 @@ class ArtistViewSet(viewsets.ModelViewSet):
     """
     queryset = Artist.objects.all()
     serializer_class = ArtistSerializer
+
+class CatalogViewSet(viewsets.ModelViewSet):
+    queryset = Catalog.objects.all()
+    serializer_class = CatalogSerializer
