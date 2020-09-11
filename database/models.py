@@ -40,7 +40,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
     username = factory.Sequence(lambda n: 'user{}'.format(n))
-    organisation = factory.LazyFunction(lambda: Organisation.objects.get(id=random.randint(1, Organisation.objects.first().id)))
+    organisation = factory.LazyFunction(lambda: Organisation.objects.get(id=random.randint(Organisation.objects.last().id, Organisation.objects.first().id)))
     role = factory.LazyFunction(lambda: random.choice(['admin', 'standard']))
 
 
@@ -84,20 +84,39 @@ class Track(models.Model):
     released = models.DateField()
     tags = models.ManyToManyField(Tag, through='TrackTag', blank=True)
 
-    def get_artists(self):
-        qs = self.artists.all()
-        artists = list(qs)
-        names = []
-        for artist in artists:
-            names.append(artist.name)
-        return ", ".join(names)
+    # def get_artists(self):
+    #     qs = self.artists.all()
+    #     artists = list(qs)
+    #     names = []
+    #     for artist in artists:
+    #         names.append(artist.name)
+    #     return ", ".join(names)
 
     def __str__(self):
-        return f"{self.title} by {self.get_artists()}"
+        return f"{self.title}"
 
     class Meta:
         ordering = ['-created']
 
+
+class TrackFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Track   
+        
+    duration = factory.LazyFunction(lambda: timedelta(minutes=random.randint(1,6)))
+    title = factory.LazyFunction(lambda: f"{factory.Faker('first_name_nonbinary').generate()} {factory.Faker('safe_color_name').generate()}")
+    released = factory.Faker('date')
+
+    @factory.post_generation
+    def artists(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if extracted:
+            # A list of groups were passed in, use them
+            for group in extracted:
+                self.groups.add(group)
 
 class Catalog(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -113,23 +132,33 @@ class Catalog(models.Model):
 class CatalogFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Catalog
-    organisation = factory.LazyFunction(lambda: Organisation.objects.get(
-        id=random.randint(1, Organisation.objects.first().id)))
-    role = factory.LazyFunction(lambda: random.choice(['admin', 'standard']))
-
+    organisation = factory.Sequence(lambda x: Organisation.objects.get(id=x))
 
 class Playlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    tracks = models.ManyToManyField(Track)
+    tracks = models.ManyToManyField(Track, blank=True)
 
     def __str__(self):
         return self.title
 
     class Meta:
         ordering = ['-created']
+
+
+
+    #CLEAN would only work in a form -- not here
+    def clean(self):
+        for track in self.tracks.all():
+            if self.user.organisation.catalog.tracks.filter(id=track.id):
+                raise ValidationError("There is a track that is not available to your organisation's catalog.")
+
+class PlaylistFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Playlist
+    organisation = factory.Sequence(lambda x: Organisation.objects.get(id=x))
 
 
 class TrackTag(models.Model):
