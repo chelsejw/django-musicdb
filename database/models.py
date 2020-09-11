@@ -1,7 +1,7 @@
 from django.db import models
 from datetime import timedelta
-import factory
-import factory.django
+# import factory
+# import factory.django
 # Create your models here.
 
 import random
@@ -17,10 +17,10 @@ class Organisation(models.Model):
         ordering = ['-created']
 
 
-class OrganisationFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = Organisation
-    title = factory.Faker('company')
+# class OrganisationFactory(factory.django.DjangoModelFactory):
+#     class Meta:
+#         model = Organisation
+#     title = factory.Faker('company')
 
 class User(models.Model):
     organisation = models.ForeignKey(Organisation, on_delete=models.CASCADE)
@@ -36,12 +36,12 @@ class User(models.Model):
         ordering = ['-created']
 
 
-class UserFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = User
-    username = factory.Sequence(lambda n: 'user{}'.format(n))
-    organisation = factory.LazyFunction(lambda: Organisation.objects.get(id=random.randint(Organisation.objects.last().id, Organisation.objects.first().id)))
-    role = factory.LazyFunction(lambda: random.choice(['admin', 'standard']))
+# class UserFactory(factory.django.DjangoModelFactory):
+#     class Meta:
+#         model = User
+#     username = factory.Sequence(lambda n: 'user{}'.format(n))
+#     organisation = factory.LazyFunction(lambda: Organisation.objects.get(id=random.randint(Organisation.objects.last().id, Organisation.objects.first().id)))
+#     role = factory.LazyFunction(lambda: random.choice(['admin', 'standard']))
 
 
 class Artist(models.Model):
@@ -132,10 +132,10 @@ class Catalog(models.Model):
         return self.organisation.title
 
 
-class CatalogFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = Catalog
-    organisation = factory.Sequence(lambda x: Organisation.objects.get(id=x))
+# class CatalogFactory(factory.django.DjangoModelFactory):
+#     class Meta:
+#         model = Catalog
+#     organisation = factory.Sequence(lambda x: Organisation.objects.get(id=x))
 
 class Playlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -158,10 +158,10 @@ class Playlist(models.Model):
             if self.user.organisation.catalog.tracks.filter(id=track.id):
                 raise ValidationError("There is a track that is not available to your organisation's catalog.")
 
-class PlaylistFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = Playlist
-    organisation = factory.Sequence(lambda x: Organisation.objects.get(id=x))
+# class PlaylistFactory(factory.django.DjangoModelFactory):
+#     class Meta:
+#         model = Playlist
+#     organisation = factory.Sequence(lambda x: Organisation.objects.get(id=x))
 
 
 class TrackTag(models.Model):

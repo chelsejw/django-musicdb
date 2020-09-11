@@ -1,10 +1,17 @@
 
+# About
 
+Attempt to design a music app system
+
+# Requirements
+- Python
+- Django
+- Django Rest Frameowrk
 
 # Design Constraints / Assumptions
 
 Most frequently used search function = search tracks by tags-> way to index this?
-Also tracks from user’s organisation’s catalog
+Also tracks from user’s organisation’s catalog 
 
 ## CATALOG
 - Each organisation has only one catalog (OneToOne)
@@ -27,11 +34,11 @@ PLAYLISTS
 
 ## TagCategory
 - Predefined
-- Categories include BPM, mood, voice identity
+- Categories include BPM, mood, voice identity, genre
 
 ## Tags 
 - Predefined
 - Associated with a TagCategory
-- Contains values specific to category (eg 90-105 BPM, energetic)
-- Each tag should only have one tag with the category BPM for example 
+- Contains values specific to category (eg 90-105 BPM, female, jazz)
+- Each tag should only have one tag with the category BPM, one under voice identity, mood and genre could have multiples 
 - For tags under BPM, it should only be an integer (regex?)
