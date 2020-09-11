@@ -54,10 +54,10 @@ class Artist(models.Model):
     def get_tracks(self):
         return Track.objects.filter(artist_id=self.id)
 
-class ArtistFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = Artist
-    name = factory.Faker('name')
+# class ArtistFactory(factory.django.DjangoModelFactory):
+#     class Meta:
+#         model = Artist
+#     name = factory.Faker('name')
 
 class TagCategory(models.Model):
     description = models.CharField(max_length=20, unique=True)
@@ -102,24 +102,24 @@ class Track(models.Model):
         ordering = ['-created']
 
         
-class TrackFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = Track   
+# class TrackFactory(factory.django.DjangoModelFactory):
+#     class Meta:
+#         model = Track   
         
-    duration = factory.LazyFunction(lambda: timedelta(minutes=random.randint(1,6)))
-    title = factory.LazyFunction(lambda: f"{factory.Faker('first_name_nonbinary').generate()} {factory.Faker('safe_color_name').generate()}")
-    released = factory.Faker('date')
+#     duration = factory.LazyFunction(lambda: timedelta(minutes=random.randint(1,6)))
+#     title = factory.LazyFunction(lambda: f"{factory.Faker('first_name_nonbinary').generate()} {factory.Faker('safe_color_name').generate()}")
+#     released = factory.Faker('date')
 
-    @factory.post_generation
-    def artists(self, create, extracted, **kwargs):
-        if not create:
-            # Simple build, do nothing.
-            return
+#     @factory.post_generation
+#     def artists(self, create, extracted, **kwargs):
+#         if not create:
+#             # Simple build, do nothing.
+#             return
 
-        if extracted:
-            # A list of groups were passed in, use them
-            for group in extracted:
-                self.groups.add(group)
+#         if extracted:
+#             # A list of groups were passed in, use them
+#             for group in extracted:
+#                 self.groups.add(group)
 
 class Catalog(models.Model):
     created = models.DateTimeField(auto_now_add=True)
