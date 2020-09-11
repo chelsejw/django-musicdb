@@ -50,3 +50,10 @@ class CatalogSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Catalog
         fields = ['organisation', 'tracks']
+
+class PlaylistSerializer(serializers.HyperlinkedModelSerializer):
+    tracks = TrackSerializer(read_only=True, many=True)
+    user = UserSerializer(read_only=True)
+    class Meta:
+        model = Playlist
+        fields = ['user', 'title', 'tracks']
