@@ -7,7 +7,6 @@ Attempt to design a music app system
 - Python
 - Django
 - Django Rest Frameowrk
-- Optional: pipenv
 
 
 # Admin Credentials
@@ -57,7 +56,7 @@ Also tracks from user’s organisation’s catalog
 
 ## TagCategory
 - Predefined
-- Categories include BPM, mood, voice identity, genre
+- Categories include BPM, mood, voice identity, genre  
 
 ## Tags 
 - Predefined
