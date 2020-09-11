@@ -104,10 +104,18 @@ class Catalog(models.Model):
     updated = models.DateField(auto_now=True)
     # Each organisation can only have one catalog
     organisation = models.OneToOneField(Organisation, on_delete=models.CASCADE)
-    tracks = models.ManyToManyField(Track)
+    tracks = models.ManyToManyField(Track, blank=True)
 
     def __str__(self):
         return self.organisation.title
+
+
+class CatalogFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Catalog
+    organisation = factory.LazyFunction(lambda: Organisation.objects.get(
+        id=random.randint(1, Organisation.objects.first().id)))
+    role = factory.LazyFunction(lambda: random.choice(['admin', 'standard']))
 
 
 class Playlist(models.Model):
