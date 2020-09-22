@@ -67,7 +67,7 @@ Also tracks from user’s organisation’s catalog
 
 
 # Notes
-- Regretfully, I wasn't able to fully implement all constraints (e.g. users should be restricted to adding tracks only from their organisation's catalog)
+- Regrettably, I wasn't able to fully implement all constraints (e.g. users should be restricted to adding tracks only from their organisation's catalog)
 - Probably shouldn't have used Django as I am still unfamiliar with it -- had difficulty with doing RESTful API routes, ended up using query params
 - Should have used django user auth models, could have been easier to restrict access to catalogs
 
